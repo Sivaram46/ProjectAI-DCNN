@@ -34,6 +34,14 @@ class DConv2d(nn.Module):
         stride: int=1, padding: int=0, dilation: int=1, groups: int=1,
         bias: bool=True, padding_mode: str='zeros'
     ):
+        """
+        Applies 2D differential convolution over an input image composed of 
+        several input plances. 
+
+        This layer is same as of nn.Conv2d except that of, `in_filters` 
+        determines the number of learnable filters which will be applied to a 
+        batch of images. The `out_channels` for this layer is 5 * `n_filters`. 
+        """
         
         super(DConv2d, self).__init__()
 
@@ -77,6 +85,12 @@ class DConv2d(nn.Module):
         return x
 
     def _feature_maps(self, x : torch.tensor):
+        """
+        Finds additional feature maps for a given feature map by convolving 
+        with Prewitt operators, thus the model can easily detect the edges and
+        lines in feature maps without increasing the number of learnable 
+        parameters.
+        """
         maps = []
         for i in range(4):
             pad = TF.pad(x, self._pad_list[i])
