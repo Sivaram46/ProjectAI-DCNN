@@ -11,7 +11,12 @@ def load_fmnist(batch_size: int):
     Datapoints in test set : 10,000
     No of classes: 10 
     """
-    return _load_data(batch_size, 'FashionMNIST')
+    classes = (
+        'T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal',
+        'Shirt', 'Sneaker', 'Bag', 'Ankle boot'
+    )
+
+    return _load_data(batch_size, 'FashionMNIST'), classes
 
 def load_mnist(batch_size: int):
     """
@@ -20,7 +25,8 @@ def load_mnist(batch_size: int):
     Datapoints in test set : 10,000
     No of classes: 10 
     """
-    return _load_data(batch_size, 'MNIST')
+    classes = tuple([str(i) for i in range(10)])
+    return _load_data(batch_size, 'MNIST'), classes
 
 def load_cifar10(batch_size: int):
     """
@@ -29,7 +35,12 @@ def load_cifar10(batch_size: int):
     Datapoints in test set : 10,000
     No of classes: 10
     """
-    return _load_data(batch_size, 'CIFAR10')
+    classes = (
+        'plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 
+        'truck'
+    )
+
+    return _load_data(batch_size, 'CIFAR10'), classes
 
 def load_cifar100(batch_size: int):
     """
@@ -80,7 +91,7 @@ def _load_data(batch_size, name):
     else:
         raise ValueError("No such dataset")
 
-    train_dataloader = DataLoader(train_data, batch_size)
-    test_dataloader = DataLoader(test_data, batch_size)
+    train_dataloader = DataLoader(train_data, batch_size, shuffle=True)
+    test_dataloader = DataLoader(test_data, batch_size, shuffle=True)
 
     return train_dataloader, test_dataloader
