@@ -11,12 +11,7 @@ def load_fmnist(batch_size: int):
     Datapoints in test set : 10,000
     No of classes: 10 
     """
-    classes = (
-        'T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal',
-        'Shirt', 'Sneaker', 'Bag', 'Ankle boot'
-    )
-
-    return _load_data(batch_size, 'FashionMNIST'), classes
+    return _load_data(batch_size, 'FashionMNIST')
 
 def load_mnist(batch_size: int):
     """
@@ -25,8 +20,7 @@ def load_mnist(batch_size: int):
     Datapoints in test set : 10,000
     No of classes: 10 
     """
-    classes = tuple([str(i) for i in range(10)])
-    return _load_data(batch_size, 'MNIST'), classes
+    return _load_data(batch_size, 'MNIST')
 
 def load_cifar10(batch_size: int):
     """
@@ -35,11 +29,6 @@ def load_cifar10(batch_size: int):
     Datapoints in test set : 10,000
     No of classes: 10
     """
-    classes = (
-        'plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 
-        'truck'
-    )
-
     return _load_data(batch_size, 'CIFAR10'), classes
 
 def load_cifar100(batch_size: int):
@@ -61,6 +50,11 @@ def _load_data(batch_size, name):
             root='data', train=False, download=True, transform=ToTensor()
         )
 
+        classes = (
+            'T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal',
+            'Shirt', 'Sneaker', 'Bag', 'Ankle boot'
+        )
+
     elif(name == 'MNIST'):
         train_data = datasets.MNIST(
             root='data', train=True, download=True, transform=ToTensor()
@@ -69,6 +63,8 @@ def _load_data(batch_size, name):
         test_data = datasets.MNIST(
             root='data', train=False, download=True, transform=ToTensor()
         )
+
+        classes = tuple([str(i) for i in range(10)])
     
     elif(name == 'CIFAR10'):
         train_data = datasets.CIFAR10(
@@ -77,6 +73,11 @@ def _load_data(batch_size, name):
 
         test_data = datasets.CIFAR10(
             root='data', train=False, download=True, transform=ToTensor()
+        )
+
+        classes = (
+            'plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 
+            'truck'
         )
     
     elif(name == 'CIFAR100'):
@@ -87,6 +88,8 @@ def _load_data(batch_size, name):
         test_data = datasets.CIFAR100(
             root='data', train=False, download=True, transform=ToTensor()
         )
+
+        classes = None
     
     else:
         raise ValueError("No such dataset")
@@ -94,4 +97,4 @@ def _load_data(batch_size, name):
     train_dataloader = DataLoader(train_data, batch_size, shuffle=True)
     test_dataloader = DataLoader(test_data, batch_size, shuffle=True)
 
-    return train_dataloader, test_dataloader
+    return train_dataloader, test_dataloader, classes
