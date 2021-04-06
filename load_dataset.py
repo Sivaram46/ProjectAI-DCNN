@@ -29,7 +29,7 @@ def load_cifar10(batch_size: int):
     Datapoints in test set : 10,000
     No of classes: 10
     """
-    return _load_data(batch_size, 'CIFAR10'), classes
+    return _load_data(batch_size, 'CIFAR10')
 
 def load_cifar100(batch_size: int):
     """
